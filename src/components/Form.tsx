@@ -28,6 +28,12 @@ function Form() {
 
   function handleOnSubmit(e: React.SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
+    const newErrors = validate(formData);
+    setError(newErrors);
+
+    if (Object.keys(newErrors).length > 0) {
+      return;
+    }
 
     console.log(formData);
     setFormData({
@@ -35,6 +41,18 @@ function Form() {
       email: "",
       password: "",
     });
+  }
+
+  function validate(data: User): FormErrors {
+    const newErrors: FormErrors = {};
+
+    if (!data.name) newErrors.name = "Name is required";
+    if (!data.email) newErrors.email = "Email is required";
+    if (!data.password) newErrors.password = "Password is required";
+    if (data.password.length < 8)
+      newErrors.password = "Password must be at least 8 characters long";
+
+    return newErrors;
   }
 
   return (
@@ -51,6 +69,7 @@ function Form() {
             onChange={handleOnChange}
             placeholder="e.g. John Doe"
           />
+          {error.name && <span className="error-text">{error.name}</span>}
         </label>
 
         <label>
@@ -62,6 +81,7 @@ function Form() {
             onChange={handleOnChange}
             placeholder="e.g. johndoe@example.com"
           />
+          {error.email && <span className="error-text">{error.email}</span>}
         </label>
 
         <label>
@@ -72,6 +92,9 @@ function Form() {
             value={formData.password}
             onChange={handleOnChange}
           />
+          {error.password && (
+            <span className="error-text">{error.password}</span>
+          )}
         </label>
       </div>
 
