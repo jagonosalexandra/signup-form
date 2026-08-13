@@ -56,10 +56,10 @@ function Form() {
   }
 
   return (
-    <form onSubmit={handleOnSubmit}>
+    <div className="form-container">
       <h1>Sign Up</h1>
 
-      <div className="inputs-container">
+      <form onSubmit={handleOnSubmit}>
         <label>
           Name
           <input
@@ -96,12 +96,12 @@ function Form() {
             <span className="error-text">{error.password}</span>
           )}
         </label>
-      </div>
 
-      <button type="submit" id="signup-btn">
-        Sign Up
-      </button>
-    </form>
+        <button type="submit" id="signup-btn">
+          Sign Up
+        </button>
+      </form>
+    </div>
   );
 }
 
