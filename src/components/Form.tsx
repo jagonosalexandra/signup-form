@@ -4,12 +4,14 @@ interface User {
   name: string;
   email: string;
   password: string;
+  confirmPassword: string;
 }
 
 interface FormErrors {
   name?: string;
   email?: string;
   password?: string;
+  confirmPassword?: string;
 }
 
 function Form() {
@@ -17,6 +19,7 @@ function Form() {
     name: "",
     email: "",
     password: "",
+    confirmPassword: "",
   });
   const [error, setError] = useState<FormErrors>({});
 
@@ -40,17 +43,25 @@ function Form() {
       name: "",
       email: "",
       password: "",
+      confirmPassword: "",
     });
   }
 
-  function validate(data: User): FormErrors {
+  function validate({
+    name,
+    email,
+    password,
+    confirmPassword,
+  }: User): FormErrors {
     const newErrors: FormErrors = {};
 
-    if (!data.name) newErrors.name = "Name is required";
-    if (!data.email) newErrors.email = "Email is required";
-    if (!data.password) newErrors.password = "Password is required";
-    if (data.password.length < 8)
+    if (!name) newErrors.name = "Name is required";
+    if (!email) newErrors.email = "Email is required";
+    if (!password) newErrors.password = "Password is required";
+    if (password.length < 8)
       newErrors.password = "Password must be at least 8 characters long";
+    if (password !== confirmPassword)
+      newErrors.confirmPassword = "Passwords do not match";
 
     return newErrors;
   }
@@ -94,6 +105,19 @@ function Form() {
           />
           {error.password && (
             <span className="error-text">{error.password}</span>
+          )}
+        </label>
+
+        <label>
+          Confirm Password
+          <input
+            type="password"
+            name="confirmPassword"
+            value={formData.confirmPassword}
+            onChange={handleOnChange}
+          />
+          {error.confirmPassword && (
+            <span className="error-text">{error.confirmPassword}</span>
           )}
         </label>
 
