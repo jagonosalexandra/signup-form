@@ -86,7 +86,7 @@ function Form() {
     <div className="form-container">
       <h1>Sign Up</h1>
 
-      <form onSubmit={handleOnSubmit}>
+      <form onSubmit={handleOnSubmit} noValidate>
         <label>
           Username
           <input
