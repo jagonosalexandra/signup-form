@@ -2,14 +2,14 @@ import { useState } from "react";
 import Modal from "./Modal";
 
 interface User {
-  name: string;
+  username: string;
   email: string;
   password: string;
   confirmPassword: string;
 }
 
 interface FormErrors {
-  name?: string;
+  username?: string;
   email?: string;
   password?: string;
   confirmPassword?: string;
@@ -17,7 +17,7 @@ interface FormErrors {
 
 function Form() {
   const [formData, setFormData] = useState<User>({
-    name: "",
+    username: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -44,7 +44,7 @@ function Form() {
     setOpenModal(true);
 
     setFormData({
-      name: "",
+      username: "",
       email: "",
       password: "",
       confirmPassword: "",
@@ -52,18 +52,30 @@ function Form() {
   }
 
   function validate({
-    name,
+    username,
     email,
     password,
     confirmPassword,
   }: User): FormErrors {
     const newErrors: FormErrors = {};
 
-    if (!name) newErrors.name = "Name is required";
-    if (!email) newErrors.email = "Email is required";
-    if (!password) newErrors.password = "Password is required";
-    if (password.length < 8)
+    if (!username) {
+      newErrors.username = "Username is required";
+    } else if (username.length < 3) {
+      newErrors.username = "Username must at least be 3 characters long";
+    }
+
+    if (!email) {
+      newErrors.email = "Email is required";
+    } else if (!email.includes("@")) {
+      newErrors.email = "Please include an '@' in the email address";
+    }
+    if (!password) {
+      newErrors.password = "Password is required";
+    } else if (password.length < 8) {
       newErrors.password = "Password must be at least 8 characters long";
+    }
+
     if (password !== confirmPassword)
       newErrors.confirmPassword = "Passwords do not match";
 
@@ -76,15 +88,17 @@ function Form() {
 
       <form onSubmit={handleOnSubmit}>
         <label>
-          Name
+          Username
           <input
             type="text"
-            name="name"
-            value={formData.name}
+            name="username"
+            value={formData.username}
             onChange={handleOnChange}
-            placeholder="e.g. John Doe"
+            placeholder="e.g. johndoe"
           />
-          {error.name && <span className="error-text">{error.name}</span>}
+          {error.username && (
+            <span className="error-text">{error.username}</span>
+          )}
         </label>
 
         <label>
