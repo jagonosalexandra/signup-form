@@ -45,6 +45,7 @@ input {
 
 #signup-btn {
   padding: 0.5rem 0.75rem;
+  margin-top: 1.25rem;
   border: none;
   background-color: #b1652b;
   font-size: 1.5rem;
