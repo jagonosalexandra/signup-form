@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Modal from "./Modal";
 
 interface User {
   name: string;
@@ -22,6 +23,7 @@ function Form() {
     confirmPassword: "",
   });
   const [error, setError] = useState<FormErrors>({});
+  const [openModal, setOpenModal] = useState<boolean>(false);
 
   function handleOnChange(e: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.target;
@@ -39,6 +41,8 @@ function Form() {
     }
 
     console.log(formData);
+    setOpenModal(true);
+
     setFormData({
       name: "",
       email: "",
@@ -125,6 +129,8 @@ function Form() {
           Sign Up
         </button>
       </form>
+
+      <Modal isOpen={openModal} onClose={() => setOpenModal(false)} />
     </div>
   );
 }
